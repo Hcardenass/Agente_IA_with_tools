@@ -63,36 +63,58 @@ API de Traducción (personalizada)	translate_to_english(texto: str) → str
 ## 4. Despliegue de la aplicación con Gradio
 
 ```python
-# 1) Instala Gradio
+
 !pip install -qU gradio
 
-# 2) Importa Gradio y los mensajes de LangChain
 import gradio as gr
 from langchain_core.messages import HumanMessage
 
-# 3) Envuelve tu agente en una función
 def run_agent(prompt: str) -> str:
-    """Recibe el texto del usuario y devuelve la respuesta del agente."""
     respuesta = ""
     for step in agent.stream(
         {"messages": [HumanMessage(content=prompt)]},
-        config,                  # asume que tienes `config` definido
+        config,
         stream_mode="values",
     ):
         respuesta = step["messages"][-1].content
     return respuesta
 
-# 4) Crea la interfaz Gradio
-iface = gr.Interface(
-    fn=run_agent,
-    inputs=gr.Textbox(lines=2, placeholder="Escribe tu pregunta aquí..."),
-    outputs=gr.Textbox(label="Respuesta"),
-    title="Agente Conversacional de IA Multiherramientas",
-    description="Pregunta a tu agente que integra PokeAPI, LinkedIn, Amazon, OnePiece…"
-)
+def respond(user_message, chat_history):
+    if chat_history is None:
+        chat_history = []
+    bot_message = run_agent(user_message)
+    chat_history.append((user_message, bot_message))
+    return "", chat_history
 
-# 5) Lanza el servidor (en Colab te dará una URL pública)
-iface.launch(share=True)
+with gr.Blocks() as demo:
+    with gr.Row():
+        # Columna izquierda muy estrecha
+        with gr.Column(scale=1, min_width=150):
+            gr.Markdown(
+                """
+                ## 🤖 Agente Multiherramientas
+                **APIs:**  
+                • PokeAPI  
+                • LinkedIn  
+                • Amazon  
+                • Futbolista (Cloud Run)  
+                • One Piece (Cloud Run)  
+                • Traducción (Cloud Run)
+                """
+            )
+        # Columna derecha grande para el chat
+        with gr.Column(scale=3):
+            chatbot = gr.Chatbot(label="Chat", height=600)
+            txt = gr.Textbox(
+                show_label=False,
+                placeholder="Escribe tu mensaje aquí…",
+                lines=1
+            )
+            send = gr.Button("Enviar")
+            send.click(respond, [txt, chatbot], [txt, chatbot])
+            txt.submit(respond, [txt, chatbot], [txt, chatbot])
+
+demo.launch(share=True)
 
 ```
 ## 5. Reflexión
