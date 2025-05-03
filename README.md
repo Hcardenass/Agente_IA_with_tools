@@ -59,3 +59,8 @@ One Piece API (personalizada)	obtenerTripulacion(personaje: str) → str
 API de Traducción (personalizada)	translate_to_english(texto: str) → str
 – Traduce cualquier texto dado al inglés mediante un endpoint propio.	 
 
+
+## 4. Reflexión
+
+A medida que sumas más fuentes de datos, el agente puede dudar sobre cuál usar para una pregunta concreta, lo que podría retrasar o complicar la respuesta. Por eso es clave contar con un enrutador inteligente que evalúe rápidamente cada consulta y seleccione la API adecuada, y con una memoria de contexto que refuerce patrones ya usados. Con esa orquestación ágil y precisa, tu agente dejará de ser un simple integrador para convertirse en un “superagente” capaz de aprovechar múltiples herramientas sin perder velocidad ni coherencia.
+
