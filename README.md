@@ -9,12 +9,14 @@
 •	Determina la intención y elige la herramienta/API adecuada.
 
 3.	Enrutamiento de Herramientas (@tool):
+   
 •  APIs externas:
     -	PokeAPI
     -	LinkedIn Data API
     -	Amazon Search API
 
 •  APIs propias (desplegadas en Cloud Run):
+
     -	Futbolista API (posición de jugador)
     -	One Piece API (tripulación de personaje)
     -	Traducción API (texto → inglés)
@@ -31,4 +33,29 @@
 •	Guarda el intercambio en memoria para posibles seguimientos.
 
 ![Arquitectura de Agente con Herramientas API](arquitectura_agente.gif)
+
+
+## 2. Descripción de Herramientas y Funciones
+
+Herramienta/API	Función principal
+PokeAPI	extractorPokemon(name: str) → str
+– Recibe el nombre de un Pokémon y devuelve sus tipos y dos habilidades principales.	 
+
+LinkedIn Data API	extractorLinkedIn(url: str) → str
+– Obtiene el headline y el summary de un perfil profesional de LinkedIn.
+
+Amazon Search API	extractorProductoAmazon(query: str) → str
+– Busca por palabra clave en Amazon y retorna las 3 primeras coincidencias con título, precio, rating y enlace.	 
+
+YouTube Media Downloader API	extractorAlbumes(cantante: str) → str
+– Busca playlists de un artista en YouTube y devuelve los títulos de las 3–5 más relevantes.	 
+
+Futbolista API (personalizada)	posiciondejugador(futbolista: str) → str
+– Devuelve la posición en el campo de un jugador de fútbol dado su nombre.	 
+
+One Piece API (personalizada)	obtenerTripulacion(personaje: str) → str
+– Retorna el nombre de la tripulación pirata a la que pertenece un personaje de One Piece.	 
+
+API de Traducción (personalizada)	translate_to_english(texto: str) → str
+– Traduce cualquier texto dado al inglés mediante un endpoint propio.	 
 
