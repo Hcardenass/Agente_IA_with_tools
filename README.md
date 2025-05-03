@@ -32,7 +32,7 @@
 •	Devuelve la respuesta al usuario en Gradio.
 •	Guarda el intercambio en memoria para posibles seguimientos.
 
-![Arquitectura de Agente con Herramientas API](arquitectura_agente.gif)
+![Arquitectura de Agente con Herramientas API](Arquitectura%20Multiherramientas.gif)
 
 
 ## 2. Descripción de Herramientas y Funciones
