@@ -59,6 +59,39 @@ One Piece API (personalizada)	obtenerTripulacion(personaje: str) → str
 API de Traducción (personalizada)	translate_to_english(texto: str) → str
 – Traduce cualquier texto dado al inglés mediante un endpoint propio.	 
 
+## Despligue 
+
+```python
+# 1) Instala Gradio
+!pip install -qU gradio
+
+# 2) Importa Gradio y los mensajes de LangChain
+import gradio as gr
+from langchain_core.messages import HumanMessage
+
+# 3) Envuelve tu agente en una función
+def run_agent(prompt: str) -> str:
+    """Recibe el texto del usuario y devuelve la respuesta del agente."""
+    respuesta = ""
+    for step in agent.stream(
+        {"messages": [HumanMessage(content=prompt)]},
+        config,                  # asume que tienes `config` definido
+        stream_mode="values",
+    ):
+        respuesta = step["messages"][-1].content
+    return respuesta
+
+# 4) Crea la interfaz Gradio
+iface = gr.Interface(
+    fn=run_agent,
+    inputs=gr.Textbox(lines=2, placeholder="Escribe tu pregunta aquí..."),
+    outputs=gr.Textbox(label="Respuesta"),
+    title="Agente Conversacional de IA Multiherramientas",
+    description="Pregunta a tu agente que integra PokeAPI, LinkedIn, Amazon, OnePiece…"
+)
+
+# 5) Lanza el servidor (en Colab te dará una URL pública)
+iface.launch(share=True)
 
 ## 4. Reflexión
 
